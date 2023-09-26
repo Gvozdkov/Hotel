@@ -6,32 +6,48 @@
 //
 
 import UIKit
+import SwiftUI
 
 class ViewController: UIViewController {
+    private let hotelCollection = HotelCollection()
 
-    private lazy var mainTitle: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        label.text = "Отель"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         settingsViewController()
+        addChild(hotelCollection)
+
+        hotelCollection.view.translatesAutoresizingMaskIntoConstraints = false
+        hotelCollection.didMove(toParent: self)
     }
-    
     
     private func settingsViewController() {
         view.backgroundColor = .white
-        view.addSubview(mainTitle)
+        view.addSubview(hotelCollection.view)
         
         NSLayoutConstraint.activate([
-            mainTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 63),
-            mainTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            hotelCollection.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            hotelCollection.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            hotelCollection.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            hotelCollection.view.heightAnchor.constraint(equalToConstant: 900),
         ])
     }
-
 }
 
+struct ViewControllerRepresentable: UIViewControllerRepresentable {
+    
+    typealias UIViewControllerType = ViewController
+        
+    func makeUIViewController(context: Context) -> ViewController {
+        ViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
+        
+    }
+}
+
+struct ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        ViewControllerRepresentable()
+    }
+}
