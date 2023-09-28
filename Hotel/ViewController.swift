@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SwiftUI
+//import SwiftUI
 
 class ViewController: UIViewController {
     private let hotelCollection = HotelCollection()
@@ -14,9 +14,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         settingsViewController()
+        
         addChild(hotelCollection)
 
         hotelCollection.view.translatesAutoresizingMaskIntoConstraints = false
+        
         hotelCollection.didMove(toParent: self)
     }
     
@@ -33,21 +35,21 @@ class ViewController: UIViewController {
     }
 }
 
-struct ViewControllerRepresentable: UIViewControllerRepresentable {
-    
-    typealias UIViewControllerType = ViewController
-        
-    func makeUIViewController(context: Context) -> ViewController {
-        ViewController()
-    }
-    
-    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
-        
-    }
-}
-
-struct ViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewControllerRepresentable()
-    }
-}
+//struct ViewControllerRepresentable: UIViewControllerRepresentable {
+//
+//    typealias UIViewControllerType = ViewController
+//
+//    func makeUIViewController(context: Context) -> ViewController {
+//        ViewController()
+//    }
+//
+//    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
+//
+//    }
+//}
+//
+//struct ViewController_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ViewControllerRepresentable()
+//    }
+//}

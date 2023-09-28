@@ -45,7 +45,6 @@ extension HotelCollection: UICollectionViewDelegateFlowLayout {
         }
         return CGSize(width: 375, height: 480)
     }
-
 }
 
 

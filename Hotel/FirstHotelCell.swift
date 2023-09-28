@@ -6,9 +6,10 @@
 //
 
 import UIKit
-import SwiftUI
 
 final class FirstHotelCell: UICollectionViewCell {
+    private let carouselCollection = CarouselCollection()
+    
     private lazy var mainTitle: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -17,14 +18,18 @@ final class FirstHotelCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var imageHotel: UIImageView = {
-        var image = UIImageView()
-        image.image = UIImage(named: "image 20")
-        image.contentMode = .scaleAspectFit
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
+    private lazy var pageControl: UIPageControl = {
+        var pageControl = UIPageControl()
+        pageControl.numberOfPages = 3
+        pageControl.currentPage = 1
+        pageControl.layer.cornerRadius = 5
+        pageControl.pageIndicatorTintColor = .gray // Цвет точек
+        pageControl.currentPageIndicatorTintColor = .black // Цвет текущей точки
+        pageControl.backgroundColor = .white
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        return pageControl
     }()
-  
+    
     private lazy var ratingHotel: UILabel = {
         // Создаем NSAttributedString с изображением и текстом
         let starImage = NSTextAttachment()
@@ -40,7 +45,6 @@ final class FirstHotelCell: UICollectionViewCell {
         // Создаем UILabel с атрибутированным текстом
         let label = UILabel()
         label.attributedText = attributedString
-        
         label.textColor = #colorLiteral(red: 1, green: 0.6967958212, blue: 0.1078198925, alpha: 1)
         label.backgroundColor = #colorLiteral(red: 0.9998750091, green: 0.9553362727, blue: 0.7991145253, alpha: 1)
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -51,7 +55,7 @@ final class FirstHotelCell: UICollectionViewCell {
         
         return label
     }()
-
+    
     
     private lazy var nameHotel: UILabel = {
         var label = UILabel()
@@ -65,7 +69,6 @@ final class FirstHotelCell: UICollectionViewCell {
     private lazy var adressHotel: UIButton = {
         var button = UIButton()
         var text = "Madinat Makadi, Safaga Road, Makadi Bay, Египет"
-        
         button.setTitle(text, for: .normal)
         button.setTitleColor(UIColor(red: 0.05098039216, green: 0.4470588235, blue: 1, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -76,7 +79,6 @@ final class FirstHotelCell: UICollectionViewCell {
     private lazy var priceHotel: UILabel = {
         var label = UILabel()
         var price = "134 673"
-        
         label.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         label.text = "от \(price) ₽"
         label.font = UIFont.systemFont(ofSize: 30, weight: .medium)
@@ -87,7 +89,6 @@ final class FirstHotelCell: UICollectionViewCell {
     private lazy var flyLabeHotel: UILabel = {
         var label = UILabel()
         var flyText = "за тур с перелётом"
-        
         label.textColor = #colorLiteral(red: 0.510109961, green: 0.5300604701, blue: 0.5896220207, alpha: 1)
         label.text = "\(flyText)"
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular )
@@ -97,7 +98,6 @@ final class FirstHotelCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         settingsView()
         constraintsView()
     }
@@ -110,11 +110,13 @@ final class FirstHotelCell: UICollectionViewCell {
         contentView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         contentView.layer.cornerRadius = 12
         contentView.layer.masksToBounds = true
+        carouselCollection.view.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func constraintsView() {
         contentView.addSubview(mainTitle)
-        contentView.addSubview(imageHotel)
+        contentView.addSubview(carouselCollection.view)
+        contentView.addSubview(pageControl)
         contentView.addSubview(ratingHotel)
         contentView.addSubview(nameHotel)
         contentView.addSubview(adressHotel)
@@ -125,12 +127,17 @@ final class FirstHotelCell: UICollectionViewCell {
             mainTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
             mainTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            imageHotel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 51),
-            imageHotel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            imageHotel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            imageHotel.widthAnchor.constraint(equalToConstant: 343),
-            imageHotel.heightAnchor.constraint(equalToConstant: 257),
-            imageHotel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            carouselCollection.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 51),
+            carouselCollection.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            carouselCollection.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            carouselCollection.view.widthAnchor.constraint(equalToConstant: 343),
+            carouselCollection.view.heightAnchor.constraint(equalToConstant: 257),
+            carouselCollection.view.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            pageControl.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: 290),
+            pageControl.centerXAnchor.constraint(equalTo: centerXAnchor),
+            pageControl.widthAnchor.constraint(equalToConstant: 100),
+            pageControl.heightAnchor.constraint(equalToConstant: 17),
             
             ratingHotel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 324),
             ratingHotel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -150,23 +157,5 @@ final class FirstHotelCell: UICollectionViewCell {
             flyLabeHotel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 442),
             flyLabeHotel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 198),
         ])
-    }
-}
-
-struct VviewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = HotelCollection
-    func makeUIViewController(context: Context) -> HotelCollection {
-        HotelCollection()
-    }
-
-    func updateUIViewController(_ uiViewController: HotelCollection, context: Context) {
-
-    }
-
-}
-
-struct VviewController_Previews: PreviewProvider {
-    static var previews: some View {
-        VviewControllerRepresentable()
     }
 }
