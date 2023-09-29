@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class CarouselCollection: UICollectionViewController {
     
     var photos: [String] = ["image 20", "image 21"]
